@@ -33,11 +33,7 @@ export default function CreateForm(props) {
           </div>
         </fieldset>
       </form>
-      <pre className="text-center">
-        <code>
-          {JSON.stringify(props.stand)}
-        </code>
-      </pre>
+
     </>
   )
 }

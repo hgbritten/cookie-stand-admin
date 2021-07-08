@@ -6,7 +6,7 @@ import Footer from "../components/footer"
 
 
 export default function Home() {
-  const [stand, setStand] = useState([]);
+  const [stands, setStands] = useState([]);
 
   function submitHandler(event) {
     event.preventDefault();
@@ -14,9 +14,9 @@ export default function Home() {
     standInfo.location = event.target.location.value;
     standInfo.minCustomers = parseInt(event.target.minCustomers.value);
     standInfo.maxCustomers = parseInt(event.target.maxCustomers.value);
-    standInfo.avgCookies = parseInt(event.target.avgCookies.value);
-
-    setStand([...stand, standInfo]);
+    standInfo.avgCookies = parseFloat(event.target.avgCookies.value);
+    standInfo.hours = [2, 23, 450, 2, 6, 3, 4, 2, 23, 450, 2, 6, 3, 4]
+    setStands([...stands, standInfo]);
   }
 
   return (
@@ -26,9 +26,9 @@ export default function Home() {
           Cookie Stand Admin
         </title>
       </Head>
-      <Header stand={stand} submitHandler={submitHandler} />
-      <Main stand={stand} submitHandler={submitHandler} />
-      <Footer stand={stand} />
+      <Header />
+      <Main stands={stands} submitHandler={submitHandler} />
+      <Footer />
     </div>
   )
 }
