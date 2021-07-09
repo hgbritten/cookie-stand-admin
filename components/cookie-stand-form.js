@@ -1,8 +1,8 @@
 
-export default function CreateForm(props) {
+export default function CookieStandForm(props) {
   return (
     <>
-      <form className="justify-center h-168 bg-green-300 mx-auto p-2 my-5 rounded" onSubmit={props.submitHandler}>
+      <form className="justify-center h-168 bg-green-300 mx-auto p-2 my-5 rounded" onSubmit={props.onCreate}>
         <fieldset>
           <div>
             <h2 className="min-w-full text-center mx-auto p-2 font-semibold text-xl">
