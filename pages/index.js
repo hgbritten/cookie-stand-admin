@@ -1,36 +1,53 @@
-import Head from 'next/head'
 import { useState } from 'react'
-import Header from "../components/header"
-import Main from "../components/main"
-import Footer from "../components/footer"
-
+import LoginForm from '../components/login-form'
+import CookieStandAdmin from '../components/cookie-stand-admin'
+import { fetcher } from '../services/data-fetcher'
 
 export default function Home() {
-  const [stands, setStands] = useState([]);
 
-  function submitHandler(event) {
-    event.preventDefault();
-    const standInfo = {};
-    standInfo.location = event.target.location.value;
-    standInfo.minCustomers = parseInt(event.target.minCustomers.value);
-    standInfo.maxCustomers = parseInt(event.target.maxCustomers.value);
-    standInfo.avgCookies = parseFloat(event.target.avgCookies.value);
-    standInfo.hours = [2, 23, 450, 2, 6, 3, 4, 2, 23, 450, 2, 6, 3, 4]
-    setStands([...stands, standInfo]);
+  const [loggedIn, setLoggedIn] = useState(false);
+
+  const [username, setUsername] = useState('');
+
+  const [cookieStandHook, setCookieStandHook] = useState();
+
+  const [error, setError] = useState()
+
+  async function loginHandler(values) {
+
+    try {
+
+      setUsername(values.username);
+
+      const hooks = await fetcher(values);
+
+      setCookieStandHook(hooks);
+
+      setLoggedIn(true);
+
+      setError(null);
+
+    } catch (err) {
+
+      console.error(err);
+      setError(err);
+    }
   }
 
-  return (
-    <div>
-      <Head>
-        <title>
-          Cookie Stand Admin
-        </title>
-      </Head>
-      <Header />
-      <Main stands={stands} submitHandler={submitHandler} />
-      <Footer />
-    </div>
-  )
+  function logoutHandler() {
+    setLoggedIn(false);
+    setCookieStandHook(null);
+    setError(null);
+    setUsername('');
+  }
+
+  if (!loggedIn) return <LoginForm onSubmit={loginHandler} error={error} />
+
+  return <CookieStandAdmin
+    useCookieStands={cookieStandHook.useCookieStands}
+    onLogout={logoutHandler}
+    username={username}
+  />
 }
 
 
